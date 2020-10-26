@@ -12,19 +12,19 @@
                     <el-form-item label="事件执行编码">
                         <el-input v-model="applyInfoSelect.combineCode" placeholder="事件执行编码"></el-input>
                     </el-form-item>
-                    <el-form-item label="执行人">
+                    <el-form-item label="待办人">
                         <el-input v-model="applyInfoSelect.user" placeholder="用户名"></el-input>
+                    </el-form-item>
+                    <el-form-item label="创建时间">
+                        <el-input :type="'date'" v-model="applyInfoSelect.createTime"></el-input>
+                    </el-form-item>
+                    <el-form-item label="更新时间">
+                        <el-input :type="'date'" v-model="applyInfoSelect.updateTime"></el-input>
                     </el-form-item>
                     <el-form-item label="时限类型">
                         <el-select v-model="receiveInfoSelect.type" placeholder="类型">
                             <el-option label="正常" value="0"></el-option>
                             <el-option label="紧急" value="1"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="延时类型">
-                        <el-select v-model="receiveInfoSelect.type" placeholder="类型">
-                            <el-option label="正常" value="0"></el-option>
-                            <el-option label="可延时" value="1"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="接收状态">
@@ -38,7 +38,6 @@
                         <el-select v-model="applyInfoSelect.type">
                             <el-option label="待完成" value="0"></el-option>
                             <el-option label="已完成" value="1"></el-option>
-                            <el-option label="未完成" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -55,13 +54,13 @@
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="combineCode"
+                        prop="impNumber"
                         label="事件执行编码"
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="type"
-                        label="事件类型"
+                        prop="eventClass"
+                        label="事件类型(类型编码)"
                         width="180">
                 </el-table-column>
                 <el-table-column
@@ -75,13 +74,13 @@
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="originUser"
-                        label="发起人(用户名)"
+                        prop="targetUser"
+                        label="待办人(用户名)"
                         width="180">
                 </el-table-column>
                 <el-table-column
-                        prop="targetUser"
-                        label="待办人(用户名)"
+                        prop="timeClass"
+                        label="时限类型"
                         width="180">
                 </el-table-column>
                 <el-table-column
@@ -91,7 +90,7 @@
                 </el-table-column>
                 <el-table-column
                         prop="detail"
-                        label="任务详情(需求中预留的五个字段用于任务详情)"
+                        label="任务详情"
                         width="180">
                 </el-table-column>
             </el-table>
@@ -108,7 +107,7 @@
                     <el-form-item label="事件执行编码">
                         <el-input v-model="receiveInfoSelect.combineCode" placeholder="事件执行编码"></el-input>
                     </el-form-item>
-                    <el-form-item label="发送人">
+                    <el-form-item label="发起人">
                         <el-input v-model="receiveInfoSelect.user" placeholder="用户名"></el-input>
                     </el-form-item>
                     <el-form-item label="时限类型">
@@ -117,10 +116,17 @@
                             <el-option label="紧急" value="1"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="延时类型">
-                        <el-select v-model="receiveInfoSelect.type" placeholder="类型">
-                            <el-option label="正常" value="0"></el-option>
-                            <el-option label="可延时" value="1"></el-option>
+                    <el-form-item label="创建时间">
+                        <el-input :type="'date'" v-model="applyInfoSelect.createTime"></el-input>
+                    </el-form-item>
+                    <el-form-item label="更新时间">
+                        <el-input :type="'date'" v-model="applyInfoSelect.updateTime"></el-input>
+                    </el-form-item>
+                    <el-form-item label="接收状态">
+                        <el-select v-model="applyInfoSelect.type">
+                            <el-option label="未接收" value="0"></el-option>
+                            <el-option label="已接收" value="1"></el-option>
+                            <el-option label="退回" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="完成状态">
@@ -174,9 +180,12 @@
                 </el-table-column>
                 <el-table-column label="跳转目标页面">
                     <template slot-scope="scope">
-                        <el-button
-                                size="mini"
-                                @click="goForward(scope.row.siteCode)">跳转</el-button>
+                        <el-button size="mini" @click="goForward(scope.row.siteCode)">
+                            跳转
+                        </el-button>
+                        <el-button size="mini" @click="received(scope.row.id)">接收</el-button>
+                        <el-button size="mini" @click="withdraw(scope.row.id)">退回</el-button>
+                        <el-button size="mini" @click="completed(scope.row.id)">跳转</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -210,6 +219,7 @@
                 },
                 receiveInfoData: [
 	                {
+	                	id: 3,
 		                name: 'x',
 		                combineCode: '100-20201024-2',
 		                type: '正常/可延时',
@@ -230,7 +240,16 @@
 				// 利用目标页面编码跳转至目标页面
                 console.log(row.siteCode)
                 window.location.pathname = '/page-a.html'
-			}
+			},
+			received() {
+
+            },
+            withdraw() {
+
+            },
+			completed() {
+
+            }
 		}
 	}
 </script>

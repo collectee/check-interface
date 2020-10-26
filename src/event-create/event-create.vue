@@ -11,16 +11,22 @@
                 <el-input v-model="form.code"></el-input>
             </el-form-item>
             <el-form-item label="事件类型">
-                <el-checkbox-group v-model="form.type">
-                    <el-checkbox label="紧急" name="emergency"></el-checkbox>
-                    <el-checkbox label="可延时" name="deferrable"></el-checkbox>
-                </el-checkbox-group>
+                <el-input v-model="form.eventClass"></el-input>
             </el-form-item>
-            <el-form-item label="发起者">
-                <el-input v-model="form.originUser"></el-input>
+            <el-form-item label="事件类型编码">
+                <el-input v-model="form.eventClassCode"></el-input>
+            </el-form-item>
+            <el-form-item label="时限类型">
+                <el-switch v-model="form.timeClass"></el-switch>
             </el-form-item>
             <el-form-item label="操作者">
                 <el-input v-model="form.targetUser"></el-input>
+            </el-form-item>
+            <el-form-item label="目标页面编码">
+                <el-input type="textarea" v-model="form.site"></el-input>
+            </el-form-item>
+            <el-form-item label="详情">
+                <el-input type="textarea" v-model="form.detail"></el-input>
             </el-form-item>
             <el-form-item>
                 .............
@@ -43,9 +49,12 @@
 				form: {
 					name: '',
 					code: '',
-                    type: [],
-					originUser: '',
-					targetUser: ''
+                    eventClass: '',
+					eventClassCode: '',
+					timeClass: '',
+					targetUser: '',
+					site: '',
+                    detail: ''
 				}
 			}
 		},
