@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
+import regeneratorRuntime from "regenerator-runtime"
 
 Vue.use(ElementUI)
 

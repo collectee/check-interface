@@ -7,6 +7,7 @@ const entryPath = path.resolve(__dirname, '../entry')
 
 module.exports = {
 	entry: {
+		'babel-polyfill': 'babel-polyfill',
 		index: path.resolve(entryPath, 'index'),
 		main: path.resolve(entryPath, 'main'),
 		pageA: path.resolve(entryPath, 'page-a'),
@@ -23,7 +24,13 @@ module.exports = {
 		contentBase: path.resolve(__dirname, "../dist"),
 		compress: false,
 		index: 'index.html',
-		port: 8080
+		port: 8080,
+		proxy: [{
+			context: ['/xl'],
+			target: 'http://47.92.202.179:81',
+			changeOrigin: true,
+			pathRewrite: {'/xl': ''}
+		}]
 	},
 	output: {
 		path: path.resolve(__dirname, '../dist'),

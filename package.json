@@ -30,7 +30,10 @@
     "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
+    "axios": "^0.21.0",
+    "babel-polyfill": "^6.26.0",
     "html-webpack-plugin": "^4.5.0",
+    "regenerator-runtime": "^0.13.7",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.7.1"
